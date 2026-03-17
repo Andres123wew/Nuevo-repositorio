@@ -1,0 +1,551 @@
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dias de chamba</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI, sans-serif;
+}
+
+body{
+background: linear-gradient(135deg,#2b2e63,#5a3fa0,#9b4d96,#ffffff);
+min-height:100vh;
+padding:40px;
+text-align:center;
+}
+
+/* LOGIN */
+
+#card{
+width:380px;
+padding:50px 40px;
+border-radius:30px;
+background: rgba(255,255,255,0.12);
+backdrop-filter: blur(25px);
+box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+color:white;
+margin:30px auto;
+}
+
+#avatar{
+width:110px;
+height:110px;
+border-radius:50%;
+margin:0 auto 40px;
+background: rgba(255,255,255,0.2);
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+#userIcon{
+width:65px;
+height:65px;
+}
+
+#caja1,#caja2{
+position:relative;
+margin-bottom:25px;
+}
+
+input{
+width:100%;
+padding:12px 45px;
+border:none;
+border-radius:10px;
+background:rgba(255,255,255,0.2);
+color:white;
+}
+
+#botoningresar{
+width:100%;
+padding:13px;
+border:none;
+border-radius:25px;
+font-size:15px;
+font-weight:bold;
+color:white;
+background: linear-gradient(90deg,#b13bbd,#3c6df0);
+cursor:pointer;
+}
+
+/* OPERACIONES */
+
+#calculadora{
+width:350px;
+margin:30px auto;
+padding:30px;
+border-radius:20px;
+background:rgba(255,255,255,0.15);
+backdrop-filter: blur(15px);
+color:white;
+}
+
+.botones{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+margin-top:15px;
+}
+
+.botones button{
+padding:10px;
+border:none;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+background:#3c6df0;
+color:white;
+}
+
+/* FLECHAS */
+
+#escenario{
+width:400px;
+height:300px;
+border:1px solid white;
+border-radius:12px;
+background:#fff;
+position:relative;
+overflow:hidden;
+margin:20px auto;
+}
+
+#cajaMover{
+position:absolute;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%);
+width:60px;
+height:60px;
+background:#e8e8e8;
+border:1px solid #bbb;
+border-radius:8px;
+display:flex;
+align-items:center;
+justify-content:center;
+color:#444;
+}
+
+.controles{
+display:grid;
+grid-template-columns:repeat(3,50px);
+gap:6px;
+justify-content:center;
+}
+
+.controles button{
+width:50px;
+height:50px;
+font-size:20px;
+border-radius:8px;
+cursor:pointer;
+}
+
+/* DESPLEGAR */
+
+#cajaPoema{
+overflow:hidden;
+height:0;
+transition:0.4s;
+border:1px solid white;
+width:300px;
+margin:20px auto;
+color:white;
+}
+
+#contenidoPoema{
+padding:20px;
+}
+
+/* MENU MEJORADO */
+
+#menuCard{
+width:750px;
+margin:40px auto;
+padding:25px;
+border-radius:25px;
+background:rgba(255,255,255,0.18);
+backdrop-filter:blur(25px);
+box-shadow:0 20px 40px rgba(0,0,0,0.35);
+}
+
+nav{
+background:#0f0f0f;
+border-radius:15px;
+padding:15px;
+}
+
+nav ul{
+list-style:none;
+display:flex;
+justify-content:center;
+gap:20px;
+}
+
+nav ul li{
+position:relative;
+}
+
+nav ul li a{
+text-decoration:none;
+color:white;
+padding:10px 25px;
+display:block;
+border-radius:10px;
+transition:0.3s;
+}
+
+nav ul li a:hover{
+background:#3c6df0;
+}
+
+/* SUBMENU 1 */
+
+nav ul li ul{
+display:none;
+flex-direction:column;
+position:absolute;
+top:45px;
+left:0;
+background:#1a1a1a;
+border-radius:10px;
+overflow:hidden;
+min-width:180px;
+box-shadow:0 10px 20px rgba(0,0,0,0.5);
+}
+
+nav ul li:hover > ul{
+display:flex;
+}
+
+/* SUBMENU 2 */
+
+nav ul li ul li ul{
+display:none;
+position:absolute;
+left:180px;
+top:0;
+background:#222;
+}
+
+nav ul li ul li:hover > ul{
+display:flex;
+flex-direction:column;
+}
+
+nav ul li ul li a{
+padding:10px 20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Dias de chamba</h1>
+
+<select id="dia">
+<option value="">Elige una opcion</option>
+<option value="Login">Iniciar sesion</option>
+<option value="Operaciones">Operaciones</option>
+<option value="Flechas">Flechas</option>
+<option value="Desplegar">Desplegar info</option>
+<option value="Menu">Menu</option>
+</select>
+
+<br><br>
+
+<div id="contenido"></div>
+
+<script>
+
+const select=document.getElementById("dia");
+const contenido=document.getElementById("contenido");
+
+select.addEventListener("change",function(){
+
+const dia=select.value;
+
+switch(dia){
+
+case "Login":
+
+contenido.innerHTML=`
+
+<div id="card">
+
+<div id="avatar">
+<img id="userIcon" src="HTML/icon.png">
+</div>
+
+<div id="caja1">
+<input type="text" id="Usuario" placeholder="Usuario">
+</div>
+
+<div id="caja2">
+<input type="password" id="Contraseña" placeholder="Contraseña">
+</div>
+
+<button id="botoningresar" onclick="LOGIN()">LOGIN</button>
+
+</div>
+
+`;
+
+break;
+
+/* OPERACIONES */
+
+case "Operaciones":
+
+contenido.innerHTML=`
+
+<div id="calculadora">
+
+<h2>Calculadora</h2>
+
+<input type="number" id="n1" placeholder="Número 1">
+<input type="number" id="n2" placeholder="Número 2">
+
+<div class="botones">
+<button onclick="operar('+')">Sumar</button>
+<button onclick="operar('-')">Restar</button>
+<button onclick="operar('*')">Multiplicar</button>
+<button onclick="operar('/')">Dividir</button>
+</div>
+
+<h3 id="resultado"></h3>
+
+</div>
+
+`;
+
+break;
+
+/* FLECHAS */
+
+case "Flechas":
+
+contenido.innerHTML=`
+
+<div id="escenario">
+<div id="cajaMover">Hola</div>
+</div>
+
+<div class="controles">
+<button onclick="mover(-1,-1)">↖</button>
+<button onclick="mover(0,-1)">↑</button>
+<button onclick="mover(1,-1)">↗</button>
+<button onclick="mover(-1,0)">←</button>
+<button onclick="reiniciar()">↺</button>
+<button onclick="mover(1,0)">→</button>
+<button onclick="mover(-1,1)">↙</button>
+<button onclick="mover(0,1)">↓</button>
+<button onclick="mover(1,1)">↘</button>
+</div>
+
+`;
+
+x=0;
+y=0;
+
+break;
+
+/* DESPLEGAR */
+
+case "Desplegar":
+
+contenido.innerHTML=`
+
+<button onclick="toggle()">Desplegar poema</button>
+
+<div id="cajaPoema">
+<div id="contenidoPoema">
+<p>En silencio florece la mañana</p>
+<p>la luz abraza el horizonte</p>
+<p>y el viento suave del día</p>
+<p>susurra sueños al corazón</p>
+</div>
+</div>
+
+`;
+
+break;
+
+/* MENU */
+
+case "Menu":
+
+contenido.innerHTML=`
+
+<div id="menuCard">
+
+<nav>
+
+<ul>
+
+<li><a href="https://www.google.com">🏠 Inicio</a></li>
+
+<li><a href="#">🔧 Servicios</a></li>
+
+<li>
+
+<a href="#">🫂 Nosotros</a>
+
+<ul>
+
+<li><a href="#">🚀 Misión</a></li>
+
+<li><a href="#">👀 Visión</a></li>
+
+<li>
+
+<a href="#">🧩 Equipo</a>
+
+<ul>
+
+<li><a href="#">🧑‍💼 Directores</a></li>
+
+<li><a href="#">🧑‍💻 Desarrolladores</a></li>
+
+<li><a href="#">🧑‍🎨 Diseñadores</a></li>
+
+</ul>
+
+</li>
+
+<li><a href="#">🏗️ Historia</a></li>
+
+</ul>
+
+</li>
+
+<li><a href="#">📞 Contactos</a></li>
+
+</ul>
+
+</nav>
+
+</div>
+
+`;
+
+break;
+
+default:
+contenido.innerHTML="";
+
+}
+
+});
+
+
+/* LOGIN */
+
+let intentos=3;
+
+function LOGIN(){
+
+const usuario=document.getElementById("Usuario").value;
+const contraseña=document.getElementById("Contraseña").value;
+
+if(usuario==="admin" && contraseña==="admin123"){
+alert("Acceso correcto");
+}
+else{
+
+intentos--;
+
+if(intentos>0){
+alert("Te quedan "+intentos+" intentos");
+}
+else{
+alert("Acceso bloqueado");
+document.getElementById("botoningresar").disabled=true;
+}
+
+}
+
+}
+
+/* OPERACIONES */
+
+function operar(op){
+
+const n1=parseFloat(document.getElementById("n1").value);
+const n2=parseFloat(document.getElementById("n2").value);
+
+let r;
+
+if(op==="+") r=n1+n2;
+if(op==="-") r=n1-n2;
+if(op==="*") r=n1*n2;
+if(op==="/") r=n1/n2;
+
+document.getElementById("resultado").textContent="Resultado: "+r;
+
+}
+
+/* DESPLEGAR */
+
+let abierto=false;
+
+function toggle(){
+
+const caja=document.getElementById("cajaPoema");
+const cont=document.getElementById("contenidoPoema");
+
+if(!abierto){
+caja.style.height=cont.offsetHeight+"px";
+abierto=true;
+}
+else{
+caja.style.height="0px";
+abierto=false;
+}
+
+}
+
+/* FLECHAS */
+
+let x=0;
+let y=0;
+const paso=40;
+
+function mover(dx,dy){
+
+const caja=document.getElementById("cajaMover");
+
+x+=dx*paso;
+y+=dy*paso;
+
+caja.style.left='calc(50% + '+x+'px)';
+caja.style.top='calc(50% + '+y+'px)';
+
+}
+
+function reiniciar(){
+
+const caja=document.getElementById("cajaMover");
+
+x=0;
+y=0;
+
+caja.style.left='50%';
+caja.style.top='50%';
+
+}
+
+</script>
+
+</body>
+</html>
+
+
